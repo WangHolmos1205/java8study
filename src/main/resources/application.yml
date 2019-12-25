@@ -1,0 +1,92 @@
+#debug: true
+swagger:
+  enabled: true
+
+server:
+  port: 8080
+  session:
+    timeout: 86400 # 一天。单位秒。
+  undertow: # 使用undertow替代tomcat
+    io-threads: 8 # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    worker-threads: 100 # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 1024
+    direct-buffers: true # Allocate buffers outside the Java heap
+
+spring:
+  profiles:
+    active: dev #用来区分不同的构建环境，比如设置为dev，springboot会使用application-dev.yml
+
+  session:
+    store-type: hash_map
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # initialize: true #指定初始化数据源，是否用data.sql来初始化，默认: true
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/study
+      username: postgres
+      password: 123456
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      maxWait: 60000 # 配置获取连接等待超时的时间(毫秒)
+      timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      minEvictableIdleTimeMillis: 300000 # 配置有一个连接在连接池中的最小生存时间，单位是毫秒
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 200
+  #      use-global-data-source-stat: true
+  #      filters: stat, wall, log4j
+  #      slf4j:
+  #        enabled: true # 开启 Slf4jFilter
+  #      wall:
+  #        enabled: true # 开启 WallFilter
+  #        config:
+  #          select-all-column-allow: false # WallConfig 配置
+  #      config:
+  #        enabled: true # 开启 ConfigFilter
+  #      web-stat:
+  #        enabled: true # 开启 Web 监控
+  #      aop-stat:
+  #        enabled: true # 开启 Aop 监控
+  #      stat-view-servlet:
+  #        enabled: true # 开启监控页面
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    content-type: text/html
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+flyway:
+  baseline-on-migrate: true
+
+pagehelper:
+  helperDialect: postgresql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+mybatis:
+  configuration:
+    cache-enabled: true
+
+
+#management:
+#  port: 8888
+#  security:
+#    enabled: true #安全认证
+#  context-path: /monitor #actuator的访问路径
+#endpoints:
+#  shutdown:
+#    enabled: false

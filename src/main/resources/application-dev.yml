@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    druid:
+      url: jdbc:postgresql://localhost:5432/study
+      username:
+      password:
+
+  thymeleaf:
+    cache: false
+
+# 跨域url
+cors.url: http://localhost:8002
