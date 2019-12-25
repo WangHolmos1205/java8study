@@ -3,7 +3,6 @@ package com.wangfan.study.service.impl.stream;
 import com.wangfan.study.service.java8.Java8Service;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -35,8 +34,13 @@ public class SpliteratorImpl implements Java8Service {
 
     void getPythagoreanTriples (){
 
+        /**
+         * LongStream.rangeClosed会直接产生原始类型的long数字，没有装箱拆箱的开销
+         * LongStream.rangeClosed会生成数字范围，很容易拆分为独立的小块
+         */
         Stream<int[]> pythagoreanTriples =
-                IntStream.rangeClosed(1, 100).boxed()
+                IntStream.rangeClosed(1, 100)
+                        .boxed()
                         .flatMap(a ->
                                 IntStream.rangeClosed(a, 100)
                                         .filter(b -> Math.sqrt(a*a + b*b) % 1 == 0)
