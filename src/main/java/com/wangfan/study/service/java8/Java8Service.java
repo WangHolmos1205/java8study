@@ -8,7 +8,13 @@ import java.util.List;
 
 public interface Java8Service {
 
-
+    /**
+     * 默认方法是为了让接口的实现类，自动拥有默认实现方法， 这样接口迭代更新加入新的方法后，
+     * 以前的失联类能够自动继承
+     *
+     * @param
+     * @return
+     */
     default List<String> getStringList(){
         List<String> templeteList = new ArrayList<>();
         templeteList.add("");

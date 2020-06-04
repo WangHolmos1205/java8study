@@ -17,7 +17,7 @@ public class FindMessage {
         List<String> messages = getList(15);
         long start = System.nanoTime();
         bad(messages,catStoreService,slowStoreService);
-        //useParallel(messages,catStoreService,slowStoreService);
+        useParallel(messages,catStoreService,slowStoreService);
 
         //useSpliterator(messages,catStoreService,slowStoreService);
         long retrievalTime = ((System.nanoTime() - start) / 1_000_000);
@@ -25,8 +25,8 @@ public class FindMessage {
         long startTwo = System.nanoTime();
         messages.stream().parallel().forEach(
                 message ->{
-                    //userFuture(message,catStoreService,slowStoreService);
-                    userAllFuture(message, catStoreService, slowStoreService);
+                    userFuture(message,catStoreService,slowStoreService);
+                    //userAllFuture(message, catStoreService, slowStoreService);
                 });
         long retrievalTimeTwo = ((System.nanoTime() - startTwo) / 1_000_000);
         System.out.println("Price returned after " + retrievalTimeTwo + " msecs");
@@ -147,7 +147,7 @@ public class FindMessage {
         catStoreService.getMessage(name);
         //catStoreService.getPrice(name);
         slowStoreService.getMessage(name);
-        //slowStoreService.getPrice(name);
+        //slowStoreService.getPrice(name);3
     }
 
     private static CompletableFuture doFuture(Consumer<String> consumer, String message){

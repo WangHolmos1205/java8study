@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
+
 
 @Service
 public class Java8CollectorsExampleServiceImpl implements Java8Service {
@@ -42,6 +44,18 @@ public class Java8CollectorsExampleServiceImpl implements Java8Service {
         List answer = templeteList.stream().filter(
                 Objects::nonNull
         ).collect(Collectors.toCollection(ArrayList::new));
+
+        List<Dish> dishs = getDishList();
+        Map<String, List<String>> xxx =  dishs.stream()
+                .collect(Collectors.groupingBy(Dish::getType,
+                        Collectors.mapping(Dish::getName, Collectors.toList())));
+        xxx.forEach(
+                (k,v) -> {
+                    this.systemInfo(k);
+                    this.systemInfo(v);
+                }
+        );
+
     }
 
     /**
@@ -196,6 +210,6 @@ public class Java8CollectorsExampleServiceImpl implements Java8Service {
 
     public static void main(String[] args) {
         Java8CollectorsExampleServiceImpl java8CollectorsExampleServiceImpl = new Java8CollectorsExampleServiceImpl();
-        java8CollectorsExampleServiceImpl.useGroupBy();
+        java8CollectorsExampleServiceImpl.useToCollection();
     }
 }
