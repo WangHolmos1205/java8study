@@ -1,5 +1,15 @@
 package com.wangfan.study.service.future;
 
+import java.util.Currency;
+import java.util.Date;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+
 public interface StoreService {
 
     /**
@@ -33,9 +43,110 @@ public interface StoreService {
         try {
             Thread.sleep(200L);
         } catch (Exception e) {
+
         }
+        Callable callable = new Callable() {
+            @Override
+            public Object call() throws Exception {
+                return null;
+            }
+        };
+        Condition condition = new Condition() {
+            @Override
+            public void await() throws InterruptedException {
+
+            }
+
+            @Override
+            public void awaitUninterruptibly() {
+
+            }
+
+            @Override
+            public long awaitNanos(long nanosTimeout) throws InterruptedException {
+                return 0;
+            }
+
+            @Override
+            public boolean await(long time, TimeUnit unit) throws InterruptedException {
+                return false;
+            }
+
+            @Override
+            public boolean awaitUntil(Date deadline) throws InterruptedException {
+                return false;
+            }
+
+            @Override
+            public void signal() {
+
+            }
+
+            @Override
+            public void signalAll() {
+
+            }
+        };
+        //ThreadPoolExecutor t = new ThreadPoolExecutor(null);
+        ReadWriteLock lock = new ReadWriteLock() {
+            @Override
+            public Lock readLock() {
+                return null;
+            }
+
+            @Override
+            public Lock writeLock() {
+                return null;
+            }
+        };
+        Thread thread = new Thread();
+        try {
+            thread.join(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Condition condition1;
         System.out.println(name);
         return name;
     }
 
+
+    public static void main(String[] args) {
+        Condition condition =new Condition() {
+            @Override
+            public void await() throws InterruptedException {
+
+            }
+
+            @Override
+            public void awaitUninterruptibly() {
+
+            }
+
+            @Override
+            public long awaitNanos(long nanosTimeout) throws InterruptedException {
+                return 0;
+            }
+
+            @Override
+            public boolean await(long time, TimeUnit unit) throws InterruptedException {
+                return false;
+            }
+
+            @Override
+            public boolean awaitUntil(Date deadline) throws InterruptedException {
+                return false;
+            }
+
+            @Override
+            public void signal() {
+
+            }
+
+            @Override
+            public void signalAll() {
+
+            }
+        };
+    }
 }

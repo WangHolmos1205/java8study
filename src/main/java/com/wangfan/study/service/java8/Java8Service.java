@@ -5,6 +5,13 @@ import com.wangfan.study.model.java8.Dish;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 public interface Java8Service {
 
@@ -55,4 +62,58 @@ public interface Java8Service {
     default void systemInfo(Object object){
         System.out.println(object.toString());
     }
+
+
+    static void main(String[] args) throws Exception {
+        AtomicInteger atomicInteger = new AtomicInteger();
+        atomicInteger.set(12);
+        FutureTask future = new FutureTask(new Cal());
+        future.run();
+        System.out.println(future.get());
+
+        ThreadLocal threadLocal = new ThreadLocal();
+        Run run = new Run();
+        Random random = new Random();
+        Thread thread = new Thread(()-> {
+
+            threadLocal.set(random.nextInt(10));
+            System.out.println(threadLocal.get());
+            //run.run();
+            //System.out.println("xxx");
+        });
+        IntStream.range(0,10).parallel().forEach(
+               a ->{
+                   threadLocal.set(a);
+                   System.out.println(threadLocal.get());
+               }
+        );
+
+//        for(int i=0;i<3;i++) {
+//            thread.run();
+//        }
+        //System.out.println("xxxx");
+    }
+
+    class Cal implements Callable{
+
+
+        public Integer add(AtomicInteger atomicInteger) throws Exception {
+            return atomicInteger.addAndGet(11);
+        }
+
+        @Override
+        public Object call() throws Exception {
+            return "right";
+        }
+    }
+
+    class Run implements Runnable{
+
+        @Override
+        public void run() {
+            System.out.println("t1");
+        }
+    }
+
+
 }

@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
-
 
 @Service
 public class Java8CollectorsExampleServiceImpl implements Java8Service {
